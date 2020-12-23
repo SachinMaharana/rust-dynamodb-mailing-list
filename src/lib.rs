@@ -59,10 +59,17 @@ fn string_to_attr(s: String) -> AttributeValue {
 }
 
 impl Store {
-    pub fn new(table_name: String) -> Self {
+    pub fn new(table_name: String, region: &str) -> Self {
+        let aws_region = match region.parse::<Region>() {
+            Ok(r) => r,
+            Err(e) => {
+                println!("{:?}", e);
+                std::process::exit(1);
+            }
+        };
         Store {
-            table_name: table_name,
-            client: DynamoDbClient::new(Region::UsEast1),
+            table_name,
+            client: DynamoDbClient::new(aws_region),
         }
     }
 
@@ -77,14 +84,14 @@ impl Store {
             expression_attribute_values: Some(values),
             ..Default::default()
         };
-
         let items = self
             .client
             .query(query)
             .await?
             .items
-            .ok_or_else(|| anyhow!("Error in db query"))?;
+            .ok_or_else(|| anyhow!("Error in Items"))?;
 
+        println!("{:?}", items);
         let mut emails = Vec::new();
 
         for i in items {
