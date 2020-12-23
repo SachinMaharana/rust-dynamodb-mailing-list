@@ -9,7 +9,7 @@ aws dynamodb create-table --cli-input-json file://news.json --endpoint-url http:
 ```
 
 ## Usage
-```
+```rust
 mod dynamo;
 
 #[tokio::main]
