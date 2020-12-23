@@ -14,9 +14,15 @@ mod dynamo;
 
 #[tokio::main]
 async fn main() {
-    let store = dynamo::Store::new("news".to_string(), "us-east-1");
+    let table_name = "news".to_string();
+    let region = "us-east-1";
 
-    match store.add_subscriber("blog".to_string(), "okay".to_string()).await {
+    let store = dynamo::Store::new(table_name, region);
+
+    let newsletter = "blog".to_string();
+    let email = "some_email".to_string();
+
+    match store.add_subscriber(newsletter, email).await {
         Ok(_s) => (),
         Err(e) => println!("{:?}",e)
     }
@@ -27,7 +33,7 @@ async fn main() {
         Err(e) => println!("{:?}", e)
     }
 
-    match  store.remove_subscriber("blog".to_string(), "some_email".to_string()).await {
+    match  store.remove_subscriber(newsletter, email).await {
         Ok(_l) => (),
         Err(e) => println!("{:?}", e)
     }
