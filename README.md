@@ -1,6 +1,6 @@
 # Rust DynamoDb Backed Mailing List
 
-```
+```s
 docker run -it --rm --name test-dynamodb -p 8000:8000 amazon/dynamodb-local
 ```
 
