@@ -1,22 +1,22 @@
 {
-    "TableName" : "News",
+    "TableName" : "news",
     "KeySchema": [
         {
-            "AttributeName": "Newsletter",
+            "AttributeName": "newsletter",
             "KeyType": "HASH"
         },
         {
-            "AttributeName": "Email",
+            "AttributeName": "email",
             "KeyType": "RANGE"
         }
     ],
     "AttributeDefinitions": [
         {
-            "AttributeName": "Newsletter",
+            "AttributeName": "newsletter",
             "AttributeType": "S"
         },
         {
-            "AttributeName": "Email",
+            "AttributeName": "email",
             "AttributeType": "S"
         }
     ],

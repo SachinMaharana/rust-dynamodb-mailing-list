@@ -91,7 +91,6 @@ impl Store {
             .items
             .ok_or_else(|| anyhow!("Error in Items"))?;
 
-        println!("{:?}", items);
         let mut emails = Vec::new();
 
         for i in items {
