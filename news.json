@@ -1,0 +1,27 @@
+{
+    "TableName" : "News",
+    "KeySchema": [
+        {
+            "AttributeName": "Newsletter",
+            "KeyType": "HASH"
+        },
+        {
+            "AttributeName": "Email",
+            "KeyType": "RANGE"
+        }
+    ],
+    "AttributeDefinitions": [
+        {
+            "AttributeName": "Newsletter",
+            "AttributeType": "S"
+        },
+        {
+            "AttributeName": "Email",
+            "AttributeType": "S"
+        }
+    ],
+    "ProvisionedThroughput": {
+        "ReadCapacityUnits": 1,
+        "WriteCapacityUnits": 1
+    }
+}
