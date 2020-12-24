@@ -60,13 +60,13 @@ fn string_to_attr(s: String) -> AttributeValue {
 
 impl Store {
     pub fn new(table_name: String, region: &str) -> Self {
-        let aws_region = match region.parse::<Region>() {
-            Ok(r) => r,
-            Err(e) => {
-                println!("{:?}", e);
-                std::process::exit(1);
-            }
-        };
+        let aws_region = region.parse::<Region>()
+        .map_err(|e| {
+            println!("{:?}", e);
+            std::process::exit(1)
+        })
+        .expect("Not a valid region");
+
         Store {
             table_name,
             client: DynamoDbClient::new(aws_region),
@@ -113,10 +113,11 @@ impl Store {
             ..Default::default()
         };
 
-        match self.client.delete_item(query).await {
-            Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e)),
-        }
+        self.client
+            .delete_item(query)
+            .await
+            .map(|_| ())
+            .map_err(|e| anyhow!(e))
     }
 
     pub async fn add_subscriber(&self, newsletter: String, email: String) -> Result<()> {
@@ -132,9 +133,11 @@ impl Store {
             item,
             ..Default::default()
         };
-        match self.client.put_item(dynamo_db_item).await {
-            Ok(_) => Ok(()),
-            Err(e) => Err(anyhow!(e)),
-        }
+
+        self.client
+            .put_item(dynamo_db_item)
+            .await
+            .map(|_| ())
+            .map_err(|e| anyhow!(e))
     }
 }
